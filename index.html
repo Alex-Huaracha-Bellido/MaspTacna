@@ -1,0 +1,589 @@
+<!--
+═══════════════════════════════════════════════════════════════════════════════
+    TACNA TURÍSTICA - SITIO WEB DE TURISMO
+═══════════════════════════════════════════════════════════════════════════════
+-->
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- Viewport para responsive design -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tacna Turística | Descubre la Ciudad Heroica</title>
+
+    <!-- Leaflet CSS para mapas interactivos -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body>
+    <!-- ═══════════════════════════════════════════════════════════════════
+         HEADER - Título principal con leones decorativos
+         ═══════════════════════════════════════════════════════════════════ -->
+    <header>
+        <div class="header-titulo">
+            <!-- León izquierdo (rotado) -->
+            <img class="leon-img leon-izq" src="imagenes/leon.png" alt="León de Tacna" aria-hidden="true" />
+            <!-- Título principal con ID para traducción -->
+            <h1><i class="fas fa-mountain"></i> <span id="t-title">Tacna Turística</span></h1>
+            <!-- León derecho (espejado y rotado) -->
+            <img class="leon-img leon-der" src="imagenes/leon.png" alt="León de Tacna" aria-hidden="true" />
+        </div>
+        <!-- Subtítulo con ID para traducción -->
+        <p id="t-subtitle">Descubre la riqueza cultural e histórica de la Ciudad Heroica</p>
+    </header>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         NAVBAR - Menú de navegación sticky con selector de idioma
+         ═══════════════════════════════════════════════════════════════════ -->
+    <nav>
+        <div class="nav-container">
+            <!-- Logo/Marca -->
+            <a href="#" class="logo"><i class="fas fa-map-marked-alt"></i> TacnaTur</a>
+
+            <!-- Icono hamburguesa para móviles (cambia a X cuando está abierto) -->
+            <div class="menu-icon" id="menuIcon">
+                <i class="fas fa-bars"></i>
+            </div>
+
+            <!-- Menú de navegación (se convierte en lateral en móviles) -->
+            <ul id="menu">
+                <li><a href="#inicio"><i class="fas fa-home"></i> <span id="t-nav-home">Inicio</span></a></li>
+                <li><a href="#lugares"><i class="fas fa-map-marked-alt"></i> <span id="t-nav-places">Lugares</span></a>
+                </li>
+                <li><a href="#gastronomia"><i class="fas fa-utensils"></i> <span id="t-nav-food">Gastronomía</span></a>
+                </li>
+                <li><a href="#testimonios"><i class="fas fa-comments"></i> <span
+                            id="t-nav-testimonials">Testimonios</span></a></li>
+                <li><a href="#contacto"><i class="fas fa-envelope"></i> <span id="t-nav-contact">Contacto</span></a>
+                </li>
+
+                <!-- Selector de idioma (ES/EN/PT) -->
+                <li class="lang-li">
+                    <label for="langSelect" class="sr-only">Idioma</label>
+                    <select id="langSelect" class="lang-select" aria-label="Idioma">
+                        <option value="es">ESP</option>
+                        <option value="en">ENG</option>
+                        <option value="pt">POR</option>
+                    </select>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Overlay semi-transparente para cerrar el menú en móviles -->
+        <div class="menu-overlay" id="menuOverlay"></div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         MAIN - Contenido principal del sitio
+         ═══════════════════════════════════════════════════════════════════ -->
+    <main>
+        <!-- ───────────────────────────────────────────────────────────────
+             SECCIÓN HERO - Imagen de bienvenida con CTA
+             ─────────────────────────────────────────────────────────────── -->
+        <section id="inicio">
+            <div class="hero">
+                <div class="hero-contenido">
+                    <h2>Bienvenidos a Tacna</h2>
+                    <p>Explora los tesoros escondidos de la ciudad más austral del Perú</p>
+                    <a href="#lugares" class="boton boton-secundario" id="t-cta-discover">Descubrir Lugares</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ───────────────────────────────────────────────────────────────
+             SECCIÓN LUGARES TURÍSTICOS - 10 tarjetas de atractivos
+             ─────────────────────────────────────────────────────────────── -->
+        <section id="lugares">
+            <h2><i class="fas fa-map-marker-alt"></i> <span id="t-sec-places">Principales Atractivos</span></h2>
+            <div class="contenedor-tarjetas">
+                <!-- Tarjeta 1: Arco Parabólico -->
+                <div class="tarjeta-lugar">
+                    <div class="tarjeta-imagen">
+                        <img src="imagenes/arco.jpg" alt="Arco Parabólico">
+                    </div>
+                    <div class="tarjeta-contenido">
+                        <h3>Arco Parabólico</h3>
+                        <p>Icono de Tacna que honra a los héroes de la Guerra del Pacífico. Construido en 1954 con
+                            piedra de cantería.</p>
+                        <div class="tarjeta-acciones">
+                            <button class="boton" onclick="mostrarModal('arco')">
+                                <i class="fas fa-info-circle"></i> Ver Detalles
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 2 -->
+                <div class="tarjeta-lugar">
+                    <div class="tarjeta-imagen">
+                        <img src="imagenes/catedral.jpg" alt="Catedral de Tacna">
+                    </div>
+                    <div class="tarjeta-contenido">
+                        <h3>Catedral de Tacna</h3>
+                        <p>Majestuoso templo de estilo neorrenacentista ubicado en la Plaza de Armas, diseñado por
+                            Gustave Eiffel.</p>
+                        <div class="tarjeta-acciones">
+                            <button class="boton" onclick="mostrarModal('catedral')">
+                                <i class="fas fa-info-circle"></i> Ver Detalles
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 3 -->
+                <div class="tarjeta-lugar">
+                    <div class="tarjeta-imagen">
+                        <img src="imagenes/micullas.jpg" alt="Petroglifos de Miculla">
+                    </div>
+                    <div class="tarjeta-contenido">
+                        <h3>Petroglifos de Miculla</h3>
+                        <p>Misteriosos grabados rupestres con más de 1,500 años de antigüedad que muestran escenas de
+                            caza y rituales.</p>
+                        <div class="tarjeta-acciones">
+                            <button class="boton" onclick="mostrarModal('miculla')">
+                                <i class="fas fa-info-circle"></i> Ver Detalles
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 4 -->
+                <div class="tarjeta-lugar">
+                    <div class="tarjeta-imagen">
+                        <img src="imagenes/zela.jpg" alt="Casa de Zela">
+                    </div>
+                    <div class="tarjeta-contenido">
+                        <h3>Casa de Zela</h3>
+                        <p>Museo histórico que fue hogar del prócer Francisco Antonio de Zela, precursor de la
+                            independencia del Perú.</p>
+                        <div class="tarjeta-acciones">
+                            <button class="boton" onclick="mostrarModal('zela')">
+                                <i class="fas fa-info-circle"></i> Ver Detalles
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Tarjeta 5 - Museo Ferroviario -->
+                <div class="tarjeta-lugar">
+                    <div class="tarjeta-imagen">
+                        <img src="imagenes/tren.jpg" alt="Museo Ferroviario">
+                    </div>
+                    <div class="tarjeta-contenido">
+                        <h3>Museo Ferroviario</h3>
+                        <p>Conserva la historia del ferrocarril Tacna-Arica con locomotoras a vapor y vagones históricos
+                            de
+                            1856.</p>
+                        <div class="tarjeta-acciones">
+                            <button class="boton" onclick="mostrarModal('museo_ferroviario')">
+                                <i class="fas fa-info-circle"></i> Ver Detalles
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 6 - Alto de la Alianza -->
+                <div class="tarjeta-lugar">
+                    <div class="tarjeta-imagen">
+                        <img src="imagenes/museoAL.jpg" alt="Alto de la Alianza">
+                    </div>
+                    <div class="tarjeta-contenido">
+                        <h3>Alto de la Alianza</h3>
+                        <p>Monumento histórico que conmemora la batalla de 1880 durante la Guerra del Pacífico con museo
+                            de
+                            sitio.</p>
+                        <div class="tarjeta-acciones">
+                            <button class="boton" onclick="mostrarModal('alto_alianza')">
+                                <i class="fas fa-info-circle"></i> Ver Detalles
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 7 - Paseo Cívico -->
+                <div class="tarjeta-lugar">
+                    <div class="tarjeta-imagen">
+                        <img src="imagenes/paseo.jpg" alt="Paseo Cívico">
+                    </div>
+                    <div class="tarjeta-contenido">
+                        <h3>Paseo Cívico</h3>
+                        <p>Corredor peatonal arbolado que conecta la Plaza de Armas con el Parque de la Locomotora.</p>
+                        <div class="tarjeta-acciones">
+                            <button class="boton" onclick="mostrarModal('paseo_civico')">
+                                <i class="fas fa-info-circle"></i> Ver Detalles
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 8 - Baños Termales -->
+                <div class="tarjeta-lugar">
+                    <div class="tarjeta-imagen">
+                        <img src="imagenes/termales.jpg" alt="Baños Termales de Calientes">
+                    </div>
+                    <div class="tarjeta-contenido">
+                        <h3>Baños Termales de Calientes</h3>
+                        <p>Aguas termales medicinales a 35 km de Tacna con propiedades terapéuticas y piscinas
+                            naturales.
+                        </p>
+                        <div class="tarjeta-acciones">
+                            <button class="boton" onclick="mostrarModal('baños_termales')">
+                                <i class="fas fa-info-circle"></i> Ver Detalles
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 9 - Parque de la Locomotora -->
+                <div class="tarjeta-lugar">
+                    <div class="tarjeta-imagen">
+                        <img src="imagenes/locomotora.jpg" alt="Parque de la Locomotora">
+                    </div>
+                    <div class="tarjeta-contenido">
+                        <h3>Parque de la Locomotora</h3>
+                        <p>Parque histórico que alberga la locomotora N°3 del ferrocarril Tacna-Arica inaugurado en
+                            1856.
+                            Símbolo del desarrollo ferroviario de la región.</p>
+                        <div class="tarjeta-acciones">
+                            <button class="boton" onclick="mostrarModal('parque_locomotora')">
+                                <i class="fas fa-info-circle"></i> Ver Detalles
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 10 - Complejo Arqueológico de Pocollay -->
+                <div class="tarjeta-lugar">
+                    <div class="tarjeta-imagen">
+                        <img src="imagenes/pocollay.jpg" alt="Complejo Arqueológico de Pocollay">
+                    </div>
+                    <div class="tarjeta-contenido">
+                        <h3>Complejo Arqueológico de Pocollay</h3>
+                        <p>Sitio arqueológico preincaico con restos de construcciones de piedra y terrazas agrícolas
+                            ancestrales.</p>
+                        <div class="tarjeta-acciones">
+                            <button class="boton" onclick="mostrarModal('pocollay')">
+                                <i class="fas fa-info-circle"></i> Ver Detalles
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ───────────────────────────────────────────────────────────────
+             SECCIÓN GASTRONOMÍA - 9 tarjetas de platos típicos
+             Nota: Cada tarjeta tiene onclick="mostrarModal('id')" que abre
+                   el modal con información detallada y mapa interactivo
+             ─────────────────────────────────────────────────────────────── -->
+        <section id="gastronomia">
+            <h2><i class="fas fa-utensils"></i> <span id="t-sec-food">Sabores de Tacna</span></h2>
+            <div class="contenedor-tarjetas">
+                <!-- Plato 1: Picante a la Tacneña -->
+                <div class="tarjeta-lugar">
+                    <div class="tarjeta-imagen">
+                        <img src="imagenes/picante.png" alt="Picante a la Tacneña">
+                    </div>
+                    <div class="tarjeta-contenido">
+                        <h3>Picante a la Tacneña</h3>
+                        <p>Plato bandera preparado con mondongo, ají panca, hierbas aromáticas y acompañado de papa
+                            amarilla.</p>
+                        <p><strong>Dónde probarlo:</strong> Restaurante "El Rincón Tacneño"</p>
+                        <button class="boton boton-outline" onclick="mostrarModal('picante')">
+                            <i class="fas fa-utensils"></i> Ver detalles
+                        </button>
+                    </div>
+                </div>
+
+                <div class="tarjeta-lugar">
+                    <div class="tarjeta-imagen">
+                        <img src="imagenes/marraqueta.jpg" alt="Pan Marraqueta">
+                    </div>
+                    <div class="tarjeta-contenido">
+                        <h3>Pan Marraqueta</h3>
+                        <p>Pan crujiente de origen chileno-peruano que se ha convertido en un ícono de la gastronomía
+                            tacneña.</p>
+                        <p><strong>Dónde comprar:</strong> Panadería "La Antigua"</p>
+                        <button class="boton boton-outline" onclick="mostrarModal('marraqueta')">
+                            <i class="fas fa-bread-slice"></i> Ver detalles
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Plato 3 - Pastel de Choclo -->
+                <div class="tarjeta-lugar">
+                    <div class="tarjeta-imagen">
+                        <img src="imagenes/pastel_choclo.jpg" alt="Pastel de Choclo">
+                    </div>
+                    <div class="tarjeta-contenido">
+                        <h3>Pastel de Choclo</h3>
+                        <p>Delicioso pastel salado de maíz molido con carne, pollo, pasas y aceitunas de influencia
+                            chilena-peruana.</p>
+                        <p><strong>Dónde probarlo:</strong> Restaurantes tradicionales</p>
+                        <button class="boton boton-outline" onclick="mostrarModal('pastel_de_choclo')">
+                            <i class="fas fa-utensils"></i> Ver detalles
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Plato 4 - Adobo Tacneño -->
+                <div class="tarjeta-lugar">
+                    <div class="tarjeta-imagen">
+                        <img src="imagenes/adobo.jpg" alt="Adobo Tacneño">
+                    </div>
+                    <div class="tarjeta-contenido">
+                        <h3>Adobo Tacneño</h3>
+                        <p>Guiso tradicional de carne de cerdo marinada en chicha de jora, ají panca y especias, cocido
+                            lentamente hasta obtener un sabor único.</p>
+                        <p><strong>Dónde probarlo:</strong> Picanterías tradicionales</p>
+                        <button class="boton boton-outline" onclick="mostrarModal('adobo_tacneno')">
+                            <i class="fas fa-pepper-hot"></i> Ver detalles
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Plato 5 - Patasca Tacneña -->
+                <div class="tarjeta-lugar">
+                    <div class="tarjeta-imagen">
+                        <img src="imagenes/patasca.jpg" alt="Patasca Tacneña">
+                    </div>
+                    <div class="tarjeta-contenido">
+                        <h3>Patasca Tacneña</h3>
+                        <p>Sopa contundente preparada con mote de maíz, carne de res, mondongo y patas cocidas
+                            lentamente. Ideal para los días fríos.</p>
+                        <p><strong>Dónde probarlo:</strong> Picanterías tradicionales</p>
+                        <button class="boton boton-outline" onclick="mostrarModal('patasca_tacnena')">
+                            <i class="fas fa-bowl-hot"></i> Ver detalles
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Plato 6 - Humitas -->
+                <div class="tarjeta-lugar">
+                    <div class="tarjeta-imagen">
+                        <img src="imagenes/humitas.png" alt="Humitas">
+                    </div>
+                    <div class="tarjeta-contenido">
+                        <h3>Humitas</h3>
+                        <p>Deliciosas humitas de choclo tierno envueltas en hojas, con textura suave y cremosa.
+                            Perfectas para desayuno o merienda.</p>
+                        <p><strong>Dónde comprar:</strong> Mercado Central</p>
+                        <button class="boton boton-outline" onclick="mostrarModal('humitas')">
+                            <i class="fas fa-heart"></i> Ver detalles
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Plato 7 - Chicharrón de Chancho -->
+                <div class="tarjeta-lugar">
+                    <div class="tarjeta-imagen">
+                        <img src="imagenes/chicharron_tacneno.jpg" alt="Chicharrón de Chancho">
+                    </div>
+                    <div class="tarjeta-contenido">
+                        <h3>Chicharrón de Chancho</h3>
+                        <p>Carne de cerdo frita en su propia grasa hasta quedar dorada y crujiente, servida con camote,
+                            cancha y salsa criolla.</p>
+                        <p><strong>Dónde probarlo:</strong> Chicherías tradicionales</p>
+                        <button class="boton boton-outline" onclick="mostrarModal('chicharron_chancho')">
+                            <i class="fas fa-drumstick-bite"></i> Ver detalles
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Plato 8 - Choclo con Queso -->
+                <div class="tarjeta-lugar">
+                    <div class="tarjeta-imagen">
+                        <img src="imagenes/choclo-con-queso.jpg" alt="Choclo con Queso">
+                    </div>
+                    <div class="tarjeta-contenido">
+                        <h3>Choclo con Queso</h3>
+                        <p>Choclo tierno cocido acompañado de queso fresco de la región. Combinación tradicional andina
+                            perfecta como entrada.</p>
+                        <p><strong>Dónde probarlo:</strong> Restaurantes y picanterías</p>
+                        <button class="boton boton-outline" onclick="mostrarModal('choclo_con_queso')">
+                            <i class="fas fa-cheese"></i> Ver detalles
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Plato 9 - Cuy Frito Tacneño -->
+                <div class="tarjeta-lugar">
+                    <div class="tarjeta-imagen">
+                        <img src="imagenes/cuy.jpg" alt="Cuy Frito Tacneño">
+                    </div>
+                    <div class="tarjeta-contenido">
+                        <h3>Cuy Frito Tacneño</h3>
+                        <p>Plato tradicional de la sierra tacneña. Cuy adobado y frito hasta quedar dorado y crujiente,
+                            acompañado de papas y ensalada.</p>
+                        <p><strong>Dónde probarlo:</strong> Restaurantes de Pocollay</p>
+                        <button class="boton boton-outline" onclick="mostrarModal('cuy_frito')">
+                            <i class="fas fa-utensils"></i> Ver detalles
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ───────────────────────────────────────────────────────────────
+             SECCIÓN TESTIMONIOS - Reseñas de visitantes
+             ─────────────────────────────────────────────────────────────── -->
+        <section id="testimonios" class="testimonios">
+            <h2><i class="fas fa-quote-left"></i> <span id="t-sec-testimonials">Lo que dicen nuestros visitantes</span>
+            </h2>
+            <div class="contenedor-testimonios">
+                <div class="testimonio">
+                    <p class="testimonio-texto">Quedé maravillado con la arquitectura de la Catedral y la calidez de su
+                        gente. ¡Volveré pronto!</p>
+                    <p class="testimonio-autor">Carlos M., Lima</p>
+                </div>
+                <div class="testimonio">
+                    <p class="testimonio-texto">El Arco Parabólico es impresionante de noche. La gastronomía es otro
+                        nivel, especialmente el picante.</p>
+                    <p class="testimonio-autor">Sofía R., Arequipa</p>
+                </div>
+                <div class="testimonio">
+                    <p class="testimonio-texto">Los petroglifos de Miculla son un viaje al pasado. Guías muy conocedores
+                        explican cada detalle.</p>
+                    <p class="testimonio-autor">Miguel T., Cusco</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         FOOTER - Información de contacto y enlaces
+         ═══════════════════════════════════════════════════════════════════ -->
+    <footer id="contacto">
+        <div class="footer-contenido">
+            <!-- Columna 1: Sobre Tacna -->
+            <div class="footer-columna">
+                <h3 id="t-foot-about">Sobre Tacna</h3>
+                <p>La ciudad más austral del Perú, conocida por su historia, cultura y gastronomía única.</p>
+                <div class="redes-sociales">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <!-- Columna 2: Enlaces rápidos -->
+            <div class="footer-columna">
+                <h3 id="t-foot-quick">Enlaces Rápidos</h3>
+                <ul>
+                    <li><i class="fas fa-arrow-right"></i><a href="#inicio" id="t-foot-home">Inicio</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="#lugares" id="t-foot-places">Lugares Turísticos</a>
+                    </li>
+                    <li><i class="fas fa-arrow-right"></i><a href="#gastronomia" id="t-foot-food">Gastronomía</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="#testimonios"
+                            id="t-foot-testimonials">Testimonios</a></li>
+                </ul>
+            </div>
+            <div class="footer-columna">
+                <h3 id="t-foot-contact">Contacto</h3>
+                <ul>
+                    <li><i class="fas fa-envelope"></i> info@tacnaturistica.com</li>
+                    <li><i class="fas fa-phone"></i> +51 123 456 789</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Plaza de Armas, Tacna</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Tacna Turística. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         MODAL - Ventana emergente para detalles de lugares
+         
+         Muestra información completa del lugar seleccionado:
+         - Imagen destacada
+         - Título
+         - Horario de atención
+         - Ubicación
+         - Precio
+         - Dato destacado
+         - Descripción completa
+         - Mapa interactivo con Leaflet (cargado dinámicamente)
+         - Botones de acción (favoritos, cómo llegar, cerrar)
+         
+         El contenido se llena dinámicamente con JavaScript (mostrarModal)
+         ═══════════════════════════════════════════════════════════════════ -->
+    <div class="modal" id="modal">
+        <div class="modal-contenido">
+            <!-- Botón cerrar (X) -->
+            <div class="modal-cerrar" id="modalCerrar">
+                <i class="fas fa-times"></i>
+            </div>
+
+            <!-- Header del modal con imagen y título -->
+            <div class="modal-header">
+                <img id="modalImagen" src="" alt="">
+                <div class="modal-titulo">
+                    <h2 id="modalTitulo"></h2>
+                </div>
+            </div>
+
+            <!-- Cuerpo del modal con información detallada -->
+            <div class="modal-body">
+                <!-- Grid con información básica (horario, ubicación, precio, destacado) -->
+                <div class="modal-info">
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <span id="modalHorario"></span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span id="modalUbicacion"></span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-tag"></i>
+                        <span id="modalPrecio"></span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-star"></i>
+                        <span id="modalDestacado"></span>
+                    </div>
+                </div>
+
+                <!-- Descripción completa del lugar -->
+                <div class="modal-descripcion" id="modalDescripcion"></div>
+
+                <!-- Contenedor del mapa interactivo (se carga con Leaflet.js) -->
+                <div class="modal-mapa" id="modalMapa"></div>
+
+                <!-- Botones de acción -->
+                <div class="modal-acciones">
+                    <button class="boton" id="modalBotonFavorito">
+                        <i class="fas fa-heart"></i> <span id="t-modal-fav">Añadir a favoritos</span>
+                    </button>
+                    <button class="boton boton-secundario" id="modalBotonComoLlegar">
+                        <i class="fas fa-route"></i> <span id="t-modal-directions">Cómo llegar</span>
+                    </button>
+                    <button class="boton boton-outline" id="modalCerrarBoton">
+                        <i class="fas fa-times"></i> <span id="t-modal-close">Cerrar</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         SCRIPTS - Librerías y código JavaScript
+         ═══════════════════════════════════════════════════════════════════ -->
+    <!-- Leaflet.js para mapas interactivos -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Script principal de la aplicación -->
+    <script src="script.js"></script>
+
+</body>
+
+</html>
