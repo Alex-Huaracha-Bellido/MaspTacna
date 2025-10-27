@@ -866,6 +866,20 @@ footer {
     .modal-acciones .boton {
         width: 100%;
     }
+
+    /* Ajustar altura del mapa en móviles pequeños */
+    .modal-mapa {
+        height: 250px;
+    }
+
+    /* Reducir padding del modal en móviles */
+    .modal-body {
+        padding: 1rem;
+    }
+
+    .modal-contenido {
+        margin: 0.5rem;
+    }
 }
 
 /* Para móviles muy pequeños, reducir aún más pero mantener los leones */
@@ -885,6 +899,16 @@ footer {
 
     .header-titulo {
         gap: 0.2rem;
+    }
+
+    /* Mapa más compacto en pantallas muy pequeñas */
+    .modal-mapa {
+        height: 200px;
+        margin-bottom: 1rem;
+    }
+
+    .modal-header {
+        height: 180px;
     }
 }
 
