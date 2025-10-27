@@ -292,15 +292,32 @@ let lugarActual = null;
 
 /**
  * Obtiene la configuración del proveedor de tiles para el mapa
- * Usa OpenStreetMap estándar para garantizar consistencia visual
+ * Usa CartoDB (Carto) que permite uso en aplicaciones móviles
  * 
  * @returns {Object} Objeto con URL y atribución del proveedor de tiles
  */
 function obtenerProveedorTiles() {
+    // CartoDB Voyager - Permite uso en apps móviles
+    return {
+        url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 19
+    };
+
+    /* Alternativa 1 - OpenStreetMap (solo para web, bloqueado en apps)
     return {
         url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     };
+    */
+
+    /* Alternativa 2 - Esri (gratuito, permite apps)
+    return {
+        url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+        attribution: 'Tiles &copy; Esri'
+    };
+    */
 }
 
 // ============================================================================
@@ -331,9 +348,14 @@ async function buscarUbicacionPorNombre(busqueda, busquedaAlternativa) {
     const TACNA_LON_MAX = -69.9;
 
     try {
+        // Headers apropiados para Nominatim (cumple política de uso)
+        const headers = {
+            'User-Agent': 'TacnaTuristicaApp/1.0 (https://tacnaturistica.com; info@tacnaturistica.com)'
+        };
+
         // Intentar búsqueda principal
         let url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(busqueda)}&limit=1&countrycodes=pe&viewbox=${TACNA_VIEWBOX}`;
-        let response = await fetch(url);
+        let response = await fetch(url, { headers });
         let data = await response.json();
 
         if (data.length > 0) {
@@ -350,11 +372,14 @@ async function buscarUbicacionPorNombre(busqueda, busquedaAlternativa) {
             }
         }
 
+        // Delay de 1 segundo entre peticiones (política de Nominatim)
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
         // Intentar búsqueda alternativa si existe
         if (busquedaAlternativa) {
             console.log(` Intentando búsqueda alternativa: ${busquedaAlternativa}`);
             url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(busquedaAlternativa)}&limit=1&countrycodes=pe&viewbox=${TACNA_VIEWBOX}`;
-            response = await fetch(url);
+            response = await fetch(url, { headers });
             data = await response.json();
 
             if (data.length > 0) {
